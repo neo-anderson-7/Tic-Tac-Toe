@@ -3,7 +3,8 @@ import java.util.Scanner;
 public class Index {
 public static String[][][] locs = {{{" ", "a1"}, {" ", "b1"}, {" ", "c1"}}, 
                                         {{" ", "a2"}, {" ", "b2"}, {" ", "c2"}},
-                                        {{" ", "a3"}, {" ", "b3"}, {" ", "c3"}}};   // Locations
+                                        {{" ", "a3"}, {" ", "b3"}, {" ", "c3"}}};   // 
+public static int movesCommitted = 0;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -17,9 +18,19 @@ public static String[][][] locs = {{{" ", "a1"}, {" ", "b1"}, {" ", "c1"}},
             1 | X X X |
             2 | X X X |
             3 | X X X |
+
+            First O has turn then X.
         */
 
+        //  Instructions
+        System.out.println("Welcome to 2v2 Tic Tac Toe!");
+        System.out.println("Enter coordinates as [letter][number] pairs.\nHave fun Ara Ara!");
+        board();    // Board initialize
         
+        while (movesCommitted <= 9) {
+            String move = scanner.next();  // Input move
+            validate(move);
+        }
 
         scanner.close();
     }
@@ -29,5 +40,9 @@ public static String[][][] locs = {{{" ", "a1"}, {" ", "b1"}, {" ", "c1"}},
         System.out.println("1 | " + locs[0][0][0] + " " + locs[0][1][0] + " " + locs[0][2][0] + " |");
         System.out.println("2 | " + locs[1][0][0] + " " + locs[1][1][0] + " " + locs[1][2][0] + " |");
         System.out.println("3 | " + locs[2][0][0] + " " + locs[2][1][0] + " " + locs[2][2][0] + " |");
+    }
+
+    public static void validate(String input) {
+
     }
 }
