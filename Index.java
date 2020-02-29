@@ -26,12 +26,11 @@ public static int movesCommitted = 0;
         System.out.println("Welcome to 2v2 Tic Tac Toe!");
         System.out.println("Enter coordinates as [letter][number] pairs.\nHave fun Ara Ara!");
         board();    // Board initialize
-        String move = " ";
         
         while (movesCommitted <= 9) {
             String symbol = (movesCommitted % 2 == 0) ? "O" : "X";
             System.out.println("Turn of " + symbol);
-            move = scanner.next();  // Input move
+            String move = scanner.next();  // Input move
             validate(move);     // Validate for wrong input and filled spots
         }
 
