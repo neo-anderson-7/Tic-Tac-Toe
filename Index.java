@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class Index {
 public static String[][][] locs = {{{" ", "a1"}, {" ", "b1"}, {" ", "c1"}}, 
-                                        {{" ", "a2"}, {" ", "b2"}, {" ", "c2"}},
-                                        {{" ", "a3"}, {" ", "b3"}, {" ", "c3"}}};   // 
+                                   {{" ", "a2"}, {" ", "b2"}, {" ", "c2"}},
+                                   {{" ", "a3"}, {" ", "b3"}, {" ", "c3"}}};
 public static int movesCommitted = 0;
 
     public static void main(String[] args) {
@@ -28,8 +28,8 @@ public static int movesCommitted = 0;
         board();    // Board initialize
         
         while (movesCommitted <= 9) {
-            String move = scanner.next();  // Input move
-            validate(move);
+            String move = scanner.nextLine();  // Input move
+            validate(move);     // Validate for wrong input and filled spots
         }
 
         scanner.close();
@@ -43,6 +43,33 @@ public static int movesCommitted = 0;
     }
 
     public static void validate(String input) {
+        Scanner scannerForValidate = new Scanner(System.in);
+        int check = 0;  // If there input is there in array key, change to 1
+        do {
+            for (int i = 0; i <= 2; i++) {
+                for (int j = 0; j <= 2; j++) {
+                    if (input.equals(locs[i][j][1])) {// Use Arrays method here
+                        //  i is for row and j is for column
+                        
+                        check++;
+                        break;
+                    }
+                }
+    
+                if (check == 1) {
+                    break;
+                }
+            }
 
+            if (check == 0) {
+                System.out.println("Wrong input! Try again.");
+                input = scannerForValidate.next();
+            }
+        } while (check == 0);
+
+        //  Now we have correct input
+
+
+        scannerForValidate.close();
     }
 }
