@@ -21,12 +21,13 @@ public static int movesCommitted = 0;
             String move = scanner.next();  // Input move
             validateAndAppend(move, symbol, scanner);     // Validate for wrong input and filled spots
             board();    // Display board
+            movesCommitted++;
             if (anyWinner(symbol)) {
                 drawCounter = false;
                 System.out.println(symbol + " wins!");
                 break;
             }
-            movesCommitted++;
+            
         } while (movesCommitted < 9);
 
         if (drawCounter) {
