@@ -47,7 +47,7 @@ public static int movesCommitted = 0;
     public static void validateAndAppend(String input, String symbol, Scanner scanner) {
         int check = 0;  // If there input is there in array key, change to 1
         int ival = -1;  // Final array value for convenience for overwrite check
-        int jval = -1;// Final array value for convenience for overwrite check
+        int jval = -1;  // Final array value for convenience for overwrite check
         do {
             for (int i = 0; i <= 2; i++) {
                 for (int j = 0; j <= 2; j++) {

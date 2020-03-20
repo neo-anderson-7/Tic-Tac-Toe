@@ -102,7 +102,7 @@ Impossible
 // package tictactoe;
 import java.util.*;
 
-public class Test {
+public class JetbrainsPredict {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String[] coordinates = new String[9];
@@ -116,11 +116,49 @@ public class Test {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 matrix[i][j] = coordinates[index];
+                index++;
+            }    
+        }
+        board(matrix);
+        boolean carryOn = true;
+
+        int count = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                count += matrix[i][j].equals("X") ? 1 : matrix[i][j].equals("O") ? -1 : 0;
             }    
         }
         
-        board(matrix);
-        System.out.print(result(matrix, cells));
+        if (!(Math.abs(count) == 1 || Math.abs(count) == 0)) {
+            System.out.print("Impossible");
+            carryOn = false;
+        }
+
+        if (carryOn) {
+            int xWins = match("X", matrix);
+            int oWins = match("O", matrix);
+            //  Add symmetric case later
+
+            if (Math.abs(xWins - oWins) == 1 && xWins + oWins == 1) {
+                String str = xWins == 1 ? "X " : "O ";
+                System.out.print(str + "wins");
+            } else if (Math.abs(xWins - oWins) == 2 && xWins + oWins == 2) {
+                //  This is supposed to handle the symmetric case
+                String str = xWins == 2 ? "X " : "O ";
+                System.out.print(str + "wins");
+            } else if (xWins == 0 && oWins == 0) {
+                //  check for incomplete or draw
+                if (cells.contains("_") || cells.contains(" ")) {
+                    System.out.print("Game not finished");
+                } else {
+                    System.out.print("Draw");
+                }
+            } else {
+                System.out.print("Impossible");
+            }
+        }
+        
+
         scanner.close();
     }
     
@@ -131,62 +169,28 @@ public class Test {
         System.out.println("| " + arr[2][0] + " " + arr[2][1] + " " + arr[2][2] + " |");
         System.out.println("---------");
     }
-    
-    public static String result(String[][] arr, String cells) {
-        int count = 0;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                count += arr[i][j] == "X" ? 1 : arr[i][j] == "O" ? -1 : 0;
-            }    
-        }
-        
-        if (!(count == 1 || count == 0)) {
-            return "Impossible";
-        }
-        
-        int xWins = 0;
-        int oWins = 0;
-        //  Rows and columns check
-        for (int i = 0; i < 3; i++) {
-            if (arr[i][0] == "X" && arr[i][1] == "X" && arr[i][2] == "X") {
-                xWins++;
+
+    public static int match(String xo, String[][] locs) {
+        int match = 0;
+
+        for (int i = 0; i <= 2; i++) {
+            if (locs[i][0].equals(xo) && locs[i][1].equals(xo) && locs[i][2].equals(xo)) {
+                match++;    // This is row check
             }
-            
-            if (arr[0][i] == "X" && arr[1][i] == "X" && arr[2][i] == "X") {
-                xWins++;
-            }
-            
-            if (arr[i][0] == "O" && arr[i][1] == "O" && arr[i][2] == "O") {
-                oWins++;
-            }
-            
-            if (arr[0][i] == "O" && arr[1][i] == "O" && arr[2][i] == "O") {
-                oWins++;
+
+            if (locs[0][i].equals(xo) && locs[1][i].equals(xo) && locs[2][i].equals(xo)) {
+                match++;    // This is column check
             }
         }
         
-        if (xWins == 0 && oWins == 0) {
-            
-                   
+        if (locs[0][0].equals(xo) && locs[1][1].equals(xo) && locs[2][2].equals(xo)) {
+            match++;    // This is "\" diagonal check
         }
 
-        if (!(xWins == 1 && oWins == 0 || xWins == 0 && oWins == 1)) {
-            return "Impossible";
-        } else {
-            return xWins == 1 ? "X wins" : "O wins";
+        if (locs[0][2].equals(xo) && locs[1][1].equals(xo) && locs[2][0].equals(xo)) {
+            match++;    // This is "/" check
         }
         
-        /*
-        | X X X |
-        | X O O |
-        | X O O |
-
-        | O X O |
-        | X X X |
-        | O X O |
-        
-        This does not work in these cases
-        */
-        
+        return match;
     }
 }
