@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - JetbrainsMove",
+            "request": "launch",
+            "mainClass": "JetbrainsMove",
+            "projectName": "Tic-Tac-Toe_99c4b5e1"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "Tic-Tac-Toe_99c4b5e1"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - JetbrainsPredict",
             "request": "launch",
             "mainClass": "JetbrainsPredict",
