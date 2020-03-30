@@ -1,30 +1,24 @@
-import java.util.Scanner;
+// package tictactoe;
+import java.util.*;
 
 public class Index {
-public static String[][][] locs = {{{" ", "a1"}, {" ", "b1"}, {" ", "c1"}}, 
-                                   {{" ", "a2"}, {" ", "b2"}, {" ", "c2"}},
-                                   {{" ", "a3"}, {" ", "b3"}, {" ", "c3"}}};
-public static int movesCommitted = 0;
-
+    public static int movesCommitted = 0;
+    static String[][][] matrix = {{{" ", "13"}, {" ", "23"}, {" ", "33"}}, 
+                                  {{" ", "12"}, {" ", "22"}, {" ", "32"}},
+                                  {{" ", "11"}, {" ", "21"}, {" ", "31"}}};
+    
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        //  Instructions
-        System.out.println("Welcome to 2v2 Tic Tac Toe!");
-        System.out.println("Enter coordinates as [letter][number] pairs.\nHave fun Ara Ara!");
-        boolean drawCounter = true;     // Determines a tie or not
-        board();    // Board initialize
-        
+        boolean drawCounter = true;
+        board(matrix);
         do {
-            String symbol = (movesCommitted % 2 == 0) ? "O" : "X";
-            System.out.println("Turn of " + symbol);
-            String move = scanner.next();  // Input move
-            validateAndAppend(move, symbol, scanner);     // Validate for wrong input and filled spots
-            board();    // Display board
+            String symbol = (movesCommitted % 2 == 0) ? "X" : "O";
+            validateAndAppend(symbol, scanner);     // Validate for wrong input and filled spots
+            board(matrix);    // Display board
             movesCommitted++;
             if (anyWinner(symbol)) {
                 drawCounter = false;
-                System.out.println(symbol + " wins!");
+                System.out.println(symbol + " wins");
                 break;
             }
             
@@ -34,53 +28,53 @@ public static int movesCommitted = 0;
             System.out.println("Its a draw");
         }
 
-        scanner.close();
+        scanner.close();    //  Delete this for submission
     }
-
-    public static void board() {
-        System.out.println("    a b c ");
-        System.out.println("1 | " + locs[0][0][0] + " " + locs[0][1][0] + " " + locs[0][2][0] + " |");
-        System.out.println("2 | " + locs[1][0][0] + " " + locs[1][1][0] + " " + locs[1][2][0] + " |");
-        System.out.println("3 | " + locs[2][0][0] + " " + locs[2][1][0] + " " + locs[2][2][0] + " |");
+    
+    public static void board(String[][][] arr) {
+        System.out.println("---------");
+        System.out.println("| " + arr[0][0][0] + " " + arr[0][1][0] + " " + arr[0][2][0] + " |");
+        System.out.println("| " + arr[1][0][0] + " " + arr[1][1][0] + " " + arr[1][2][0] + " |");
+        System.out.println("| " + arr[2][0][0] + " " + arr[2][1][0] + " " + arr[2][2][0] + " |");
+        System.out.println("---------");
     }
-
-    public static void validateAndAppend(String input, String symbol, Scanner scanner) {
-        int check = 0;  // If there input is there in array key, change to 1
-        int ival = -1;  // Final array value for convenience for overwrite check
-        int jval = -1;  // Final array value for convenience for overwrite check
+    
+    public static void validateAndAppend(String symbol, Scanner scanner) {
+        boolean cont = true;
         do {
-            for (int i = 0; i <= 2; i++) {
-                for (int j = 0; j <= 2; j++) {
-                    if (input.equals(locs[i][j][1])) {// Use Arrays method here
-                        //  i is for row and j is for column
-                        ival = i;
-                        jval = j;
-                        check++;
-                        break;
+            System.out.print("Enter coordinates: ");
+            String inp = scanner.nextLine();  // Input move
+            int dataInput;
+            String input = "0" + inp;
+            input = input.replace(" ", "");
+            if (Integer.parseInt(input) < 11) {
+                System.out.println("You should enter numbers!");
+                continue;
+            } else {
+                dataInput = Integer.parseInt(input);
+            }
+            
+            int unit = dataInput % 10;
+            int tens = dataInput / 10;
+            
+            if (unit < 1 || unit > 3 || tens < 1 || tens > 3) {
+                System.out.println("Coordinates should be from 1 to 3!");
+                continue;
+            }
+            
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (matrix[i][j][1].toString().equals(String.valueOf(dataInput))) {
+                        if (matrix[i][j][0] != " " && matrix[i][j][0] != "_") {
+                            System.out.println("This cell is occupied! Choose another one!");
+                        } else {
+                            matrix[i][j][0] = symbol;
+                            cont = false;
+                        }
                     }
                 }
-    
-                if (check == 1) {
-                    break;
-                }
             }
-
-            if (check == 0) {
-                System.out.println("Wrong input! Try again.");
-                input = scanner.next();
-            } else {
-                //  Since this block has come, we have correct input
-
-                if (" ".equals(locs[ival][jval][0])) {
-                    locs[ival][jval][0] = symbol;
-                } else {
-                    System.out.println("Place taken! Try again.");
-                    input = scanner.next();
-                    // Since we have a new input, we have to check again for incorrect input
-                    check--;
-                }
-            }
-        } while (check == 0);
+        } while (cont);
     }
 
     public static Boolean anyWinner(String xo) {
@@ -89,20 +83,20 @@ public static int movesCommitted = 0;
         }
 
         for (int i = 0; i <= 2; i++) {
-            if (locs[i][0][0] == xo && locs[i][1][0] == xo && locs[i][2][0] == xo) {
+            if (matrix[i][0][0] == xo && matrix[i][1][0] == xo && matrix[i][2][0] == xo) {
                 return true;    // This is row check
             }
 
-            if (locs[0][i][0] == xo && locs[1][i][0] == xo && locs[2][i][0] == xo) {
+            if (matrix[0][i][0] == xo && matrix[1][i][0] == xo && matrix[2][i][0] == xo) {
                 return true;    // This is column check
             }
         }
         
-        if (locs[0][0][0] == xo && locs[1][1][0] == xo && locs[2][2][0] == xo) {
+        if (matrix[0][0][0] == xo && matrix[1][1][0] == xo && matrix[2][2][0] == xo) {
             return true;    // This is "\" diagonal check
         }
 
-        if (locs[0][2][0] == xo && locs[1][1][0] == xo && locs[2][0][0] == xo) {
+        if (matrix[0][2][0] == xo && matrix[1][1][0] == xo && matrix[2][0][0] == xo) {
             return true;    // This is "/" check
         }
 
