@@ -25,7 +25,7 @@ public class Index {
         } while (movesCommitted < 9);
 
         if (drawCounter) {
-            System.out.println("Its a draw");
+            System.out.println("Draw");
         }
 
         scanner.close();    //  Delete this for submission
@@ -65,7 +65,7 @@ public class Index {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if (matrix[i][j][1].toString().equals(String.valueOf(dataInput))) {
-                        if (matrix[i][j][0] != " " && matrix[i][j][0] != "_") {
+                        if (!matrix[i][j][0].equals(" ")) {
                             System.out.println("This cell is occupied! Choose another one!");
                         } else {
                             matrix[i][j][0] = symbol;
